@@ -28,11 +28,9 @@ to be evaluated in the order in which it is presented.
 
 * Exercise 1.2
 Translate the following expression into prefix form
-     1     /     /     /     1 \\\
-5 + --- + | 2 - | 3 - | 6 + --- |||
-     2     \     \     \     5 ///
------------------------------------
-         3(6 - 2)(2 - 7)
+\[
+\frac(5 + \frac(1)(2) + (2 - (3 - (6 + \frac(1)(5))(3(6 - 2)(2 -7))
+\]
 
 #+BEGIN_SRC scheme
   (/ (+ 5
@@ -306,7 +304,7 @@ What are the values of the following expressions?
   65536
 #+END_SRC
 
-Consider the following procedures, where `A` is the procedure defined above:
+Consider the following procedures, where =A= is the procedure defined above:
 #+BEGIN_SRC scheme
   (define (f n) (A 0 n))
   (define (g n) (A 1 n))
@@ -315,10 +313,10 @@ Consider the following procedures, where `A` is the procedure defined above:
 #+END_SRC
 
 Give concise mathematical definitions for the functions computed by the
-procedures `f`, `g`, and `h` for positive integer values of `n`. for example,
-`(k n)` computes `5n^2`.
+procedures =f=, =g=, and =h= for positive integer values of =n=. for example,
+=(k n)= computes =5n^2=.
 
-`(f n)` computes 2*n. `(g n)` computes 2^n. `(h n)` computes ^n2.
+=(f n)= computes 2*n. =(g n)= computes 2^n. =(h n)= computes ^n2.
 
 * Exercise 1.11
 
