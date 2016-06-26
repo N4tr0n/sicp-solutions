@@ -28,9 +28,9 @@ to be evaluated in the order in which it is presented.
 
 * Exercise 1.2
 Translate the following expression into prefix form
-\[
+\begin{equation}
 \frac(5 + \frac(1)(2) + (2 - (3 - (6 + \frac(1)(5))(3(6 - 2)(2 -7))
-\]
+\end{equation}
 
 #+BEGIN_SRC scheme
   (/ (+ 5
