@@ -101,18 +101,18 @@ Using applicative-order evaluation, the expression
 (test 0 p)
 #+END_SRC
 will be evaluated by first evaluating the arguments. Thus, when the
-interpreter attempts to evaluate `p` leading to an infinite recursion
+interpreter attempts to evaluate =p= leading to an infinite recursion
 and the evaluation will never complete.
 Using normal-order evaluation, we will first expand the expression then
-reduce. When this happens, the `if` form's condition will evaluate to
+reduce. When this happens, the =if= form's condition will evaluate to
 true and the result of the expression will be zero with no attempt to
 evaluate p.
 
 * Exercise 1.6
-Alyssa P. Hacker doesn't see why `if` needs to be provided as a special
+Alyssa P. Hacker doesn't see why =if= needs to be provided as a special
 form. "Why can't I just define it as an ordinary procedure in terms of
-`cond`?" she asks. Alyssa's friend Eva Lu Ator claims this can indeed be
-done, and she defines a new version of `if`:
+=cond=?" she asks. Alyssa's friend Eva Lu Ator claims this can indeed be
+done, and she defines a new version of =if=:
 #+BEGIN_SRC scheme
   (define (new-if predicate then-clause else-clause)
     (cond (predicate then-clause)
@@ -125,7 +125,7 @@ Eva demonstrates the program for Alyssa:
   (new-if (= 1 1) 0 5)
   ;; 0
 #+END_SRC
-Delighted, Alyssa uses `new-if` to rewrite the square-root program:
+Delighted, Alyssa uses =new-if= to rewrite the square-root program:
 #+BEGIN_SRC scheme
   (define (sqrt-iter guess x)
     (new-if (good-enough? guess x)
@@ -135,10 +135,10 @@ Delighted, Alyssa uses `new-if` to rewrite the square-root program:
 #+END_SRC
 What happens when Alyssa attempts to use this to compute square roots?
 Explain.
-Since `new-if` is a procedure and must evaluate all of its arguments,
-`sqrt-iter` will loop forever. This happens because `sqrt-iter` must be
-evaluated before `new-if` can be applied thus calling `new-if` again
-which will try to evaluate `sqrt-iter` again and so on.
+Since =new-if= is a procedure and must evaluate all of its arguments,
+=sqrt-iter= will loop forever. This happens because =sqrt-iter= must be
+evaluated before =new-if= can be applied thus calling =new-if= again
+which will try to evaluate =sqrt-iter= again and so on.
 
 * Exercise 1.7
 The `good-enough?` test used in computing square roots will not be very
