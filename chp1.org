@@ -53,6 +53,7 @@ Translate the following expression into prefix form
 * Exercise 1.3
 Define a procedure that takes three numbers as arguments and returns the
 sum of the squares of the two larger numbers.
+** Solution
 #+BEGIN_SRC scheme
   (define (sum-of-squares-of-larger x y z)
     (cond ((and (>= x z) (>= y z))
@@ -70,6 +71,7 @@ behavior of the following procedure:
 (define (a-plus-abs-b a b)
   ((if (> b 0) + -) a b))
 #+END_SRC
+** Solution
 This procedure uses the sign of b to decide whether to add b to a or
 subtract b from a. If b is greater than zero then b is added if b is
 less than zero then b is subtracted essentially resulting in adding the
@@ -100,7 +102,7 @@ answer. (Assume that the evaluation rule for the special form if is the
 same whether the interpreter is using normal or applicative order: The
 predicate expression is evaluated first, and the result determines
 whether to evaluate the consequent or the alternative expression.)
-
+** Solution
 Using applicative-order evaluation, the expression
 #+BEGIN_SRC scheme
 (test 0 p)
@@ -140,26 +142,27 @@ Delighted, Alyssa uses =new-if= to rewrite the square-root program:
 #+END_SRC
 What happens when Alyssa attempts to use this to compute square roots?
 Explain.
+** Solution
 Since =new-if= is a procedure and must evaluate all of its arguments,
 =sqrt-iter= will loop forever. This happens because =sqrt-iter= must be
 evaluated before =new-if= can be applied thus calling =new-if= again
 which will try to evaluate =sqrt-iter= again and so on.
 
 * Exercise 1.7
-The `good-enough?` test used in computing square roots will not be very
+The =good-enough?= test used in computing square roots will not be very
 effective for finding the square roots of very small numbers. Also, in
 real computers, arithmetic operations are almost always performed with
 limited precision. This makes our test inadequate for very large
 number. Explain these statements, with examples showing how the test
 fails for small and large numbers. An alternative strategy for
-implementing `good-enough?` is to watch how `guess` changes from one
+implementing =good-enough?= is to watch how =guess= changes from one
 iteration to the next and to stop when the change is a very small
 fraction of the guess. Design a square-root procedure that uses this
 kind of end test. Does this work better for small and large numbers?
-
+** Solution
 For very small numbers we have a very large relative error. For
-instance, in computing `(sqrt 0.001)` the difference between the
-`good-enough?` result is 70% different than the original argument.
+instance, in computing =(sqrt 0.001)= the difference between the
+=good-enough?= result is 70% different than the original argument.
 For very large numbers the machine precision is unable to represent
 small differences between large numbers.
 #+BEGIN_SRC scheme
@@ -179,6 +182,7 @@ approximation to the cube root of x, then a better approximation is
 given by the value (x/y^2 + 2*y)/3
 Use this formula to implement a cube-root procedure analogous to the
 square-root procedure.
+** Solution
 #+BEGIN_SRC scheme
   (define (square x)
     (* x x))
@@ -204,6 +208,13 @@ argument by 1, and =dec=, which decrements its argument by 1.
         b
         (inc (+ (dec a) b))))
 
+  (define (+ a b)
+    (if (= a 0)
+        b
+        (+ (dec a) (inc b))))
+#+END_SRC
+** Solution
+#+BEGIN_SRC scheme
   (inc (+ (dec 4) 5))
   (inc (+ 3 5))
   (inc (inc (+ (dec 3) 5)))
@@ -217,12 +228,6 @@ argument by 1, and =dec=, which decrements its argument by 1.
   (inc (inc 7))
   (inc 8)
   9
-
-
-  (define (+ a b)
-    (if (= a 0)
-        b
-        (+ (dec a) (inc b))))
 
   (+ (dec 4) (inc 5))
   (+ 3 6)
@@ -249,6 +254,12 @@ function.
 #+END_SRC
 
 What are the values of the following expressions?
+#+BEGIN_SRC scheme
+  (A 1 10)
+  (A 2 4)
+  (A 3 3)
+#+END_SRC
+** Solution
 #+BEGIN_SRC scheme
   (A 1 10)
   (A 0 (A 1 9))
@@ -330,6 +341,7 @@ A function f is defined by the rule that f(n) = n if n < 3 and f(n) = f(n-1) +
 2f(n-2) + 3f(n-3) if n >= 3. Write a procedure that computes f by means
 of a recursive procedure. Write a procedure that computes f by means of
 an iterative procedure.
+** Solution
 #+BEGIN_SRC scheme
   (define (f-recur n)
     (if (< n 3)
