@@ -422,3 +422,20 @@
                  (pascal (- row 1)
                          column)))))
    #+END_SRC
+* Exercise 1.13
+  Prove that =Fib(n)= is the closest integer to
+  #+BEGIN_EXPORT html
+
+  #+END_EXPORT
+  where
+  #+BEGIN_EXPORT html
+
+  #+END_EXPORT
+  Hint: Let
+  #+BEGIN_EXPORT html
+
+  #+END_EXPORT
+  Use induction and the definition of the Fibonacci numbers to prove that
+  #+BEGIN_EXPORT html
+
+  #+END_EXPORT
