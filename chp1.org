@@ -424,18 +424,18 @@
    #+END_SRC
 * Exercise 1.13
   Prove that =Fib(n)= is the closest integer to
-  #+BEGIN_EXPORT html
+  #+BEGIN_HTML
 
-  #+END_EXPORT
+  #+END_HTML
   where
-  #+BEGIN_EXPORT html
+  #+BEGIN_HTML
 
-  #+END_EXPORT
+  #+END_HTML
   Hint: Let
   #+BEGIN_EXPORT html
 
-  #+END_EXPORT
+  #+END_HTML
   Use induction and the definition of the Fibonacci numbers to prove that
-  #+BEGIN_EXPORT html
+  #+BEGIN_HTML
 
-  #+END_EXPORT
+  #+END_HTML
