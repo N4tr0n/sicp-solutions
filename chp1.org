@@ -1,3 +1,5 @@
+#+STARTUP: showeverything
+#+TITLE: SICP Chapter 1 Solutions
 * Exercises
 ** 1.1
   Below is a sequence of expressions. What is the result printed by the
