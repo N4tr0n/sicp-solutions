@@ -391,6 +391,7 @@
                    c))))
     (iter (0 0 1 2)))
    #+END_SRC
+
 ** 1.12
   The following pattern of numbers is called /Pascal's triangle/.
 
