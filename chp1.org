@@ -393,6 +393,7 @@
    #+END_SRC
 ** 1.12
   The following pattern of numbers is called /Pascal's triangle/.
+
   #+BEGIN_EXAMPLE
       1
      1 1
@@ -401,6 +402,7 @@
   1 4 6 4 1
      ...
   #+END_EXAMPLE
+
   The numbers at the edge of the triangle are all 1, and each number
   inside the triangle is the sum of the two numbers above it. Write a
   procedure that computes elements of Pascal's triangle by means of a
@@ -421,6 +423,7 @@
                  (pascal (- row 1)
                          column)))))
    #+END_SRC
+
 ** 1.13
   Prove that =Fib(n)= is the closest integer to
   #+BEGIN_HTML
