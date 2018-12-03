@@ -1,10 +1,9 @@
 #+TITLE: SICP Chapter 1 Solutions
-* Chapter 1
-** Exercise
+* Exercise 1.1
   Below is a sequence of expressions. What is the result printed by the
   interpreter in response to each expression? Assume that the sequence is
   to be evaluated in the order in which it is presented.
-*** Solution
+** Solution
    #+BEGIN_SRC scheme
      10 ; 10
      (+ 5 3 4) ; 12
@@ -28,12 +27,12 @@
         (+ a 1)) ; 16
    #+END_SRC
 
-** Exercise
+* Exercise 1.2
   Translate the following expression into prefix form
   \begin{equation}
   \frac{5+4+(2-(3-(6+\frac{4}{5})))}{3(6-2)(2-7)}
   \end{equation}
-*** Solution
+** Solution
    #+BEGIN_SRC scheme
      (/ (+ 5
            4
@@ -46,10 +45,10 @@
            (- 2 7)))
    #+END_SRC
 
-** Exercise
+* Exercise 1.3
   Define a procedure that takes three numbers as arguments and returns the
   sum of the squares of the two larger numbers.
-*** Solution
+** Solution
    #+BEGIN_SRC scheme
      (define (sum-of-squares-of-larger x y z)
        (cond ((and (>= x z) (>= y z))
@@ -59,7 +58,7 @@
              (else (sum-of-squares y z))))
    #+END_SRC
 
-** 1.4
+* Exercise 1.4
   Observe that our model of evaluation allows for combinations whose
   operators are compound expressions. Use this observation to describe the
   behavior of the following procedure:
@@ -67,13 +66,13 @@
     (define (a-plus-abs-b a b)
       ((if (> b 0) + -) a b))
   #+END_SRC
-*** Solution
+** Solution
    This procedure uses the sign of =b= to decide whether to add =b= to =a= or
    subtract =b= from =a=. If b is greater than zero then =b= is added if =b= is
    less than zero then =b= is subtracted essentially resulting in adding the
    absolute value of =b= to =a=.
 
-** 1.5
+* Exercise 1.5
   Ben Bitdiddle has invented a test to determine whether the interpreter
   he is faced with is using applicative-order evaluation or normal-order
   evaluation. He defines the following two procedures:
@@ -98,7 +97,7 @@
   same whether the interpreter is using normal or applicative order: The
   predicate expression is evaluated first, and the result determines
   whether to evaluate the consequent or the alternative expression.)
-*** Solution
+** Solution
    Using applicative-order evaluation, the expression
    #+BEGIN_SRC scheme
      (test 0 p)
@@ -110,7 +109,7 @@
    will evaluate to true and the result of the expression will be zero
    with no attempt to evaluate p.
 
-** 1.6
+* Exercise 1.6
   Alyssa P. Hacker doesn't see why =if= needs to be provided as a special
   form. "Why can't I just define it as an ordinary procedure in terms of
   =cond=?" she asks. Alyssa's friend Eva Lu Ator claims this can indeed be
@@ -137,13 +136,13 @@
   #+END_SRC
   What happens when Alyssa attempts to use this to compute square roots?
   Explain.
-*** Solution
+** Solution
    Since =new-if= is a procedure and must evaluate all of its arguments,
    =sqrt-iter= will loop forever. This happens because =sqrt-iter= must be
    evaluated before =new-if= can be applied thus calling =new-if= again
    which will try to evaluate =sqrt-iter= again and so on.
 
-** 1.7
+* Exercise 1.7
   The =good-enough?= test used in computing square roots will not be very
   effective for finding the square roots of very small numbers. Also, in
   real computers, arithmetic operations are almost always performed with
@@ -154,7 +153,7 @@
   iteration to the next and to stop when the change is a very small
   fraction of the guess. Design a square-root procedure that uses this
   kind of end test. Does this work better for small and large numbers?
-*** Solution
+** Solution
    For very small numbers we have a very large relative error. For
    instance, in computing =(sqrt 0.001)= the difference between the
    =good-enough?= result is 70% different than the original argument.
@@ -171,7 +170,7 @@
        (sqrt-iter x 1.0 x))
    #+END_SRC
 
-** 1.8
+* Exercise 1.8
   Newton's method for cube roots is based on the fact that if y is an
   approximation to the cube root of x, then a better approximation is
   given by the value
@@ -180,7 +179,7 @@
   \end{equation}
   Use this formula to implement a cube-root procedure analogous to the
   square-root procedure.
-*** Solution
+** Solution
    #+BEGIN_SRC scheme
      (define (square x)
        (* x x))
@@ -196,7 +195,7 @@
        (cbrt-iter x 1.0 x))
    #+END_SRC
 
-** 1.9
+* Exercise 1.9
   Each of the following two procedures defines a method for adding two
   positive integers in terms of the procedures =inc=, which increments its
   argument by 1, and =dec=, which decrements its argument by 1.
@@ -211,7 +210,7 @@
           b
           (+ (dec a) (inc b))))
   #+END_SRC
-*** Solution
+** Solution
    #+BEGIN_SRC scheme
      (inc (+ (dec 4) 5))
      (inc (+ 3 5))
@@ -239,7 +238,7 @@
    #+END_SRC
    The first process is recursive while the second process is iterative.
 
-** 1.10
+* Exercise 1.10
   The following procedure computes a mathematical function called Ackermann's
   function.
   #+BEGIN_SRC scheme
@@ -257,7 +256,20 @@
     (A 2 4)
     (A 3 3)
   #+END_SRC
-*** Solution
+
+  Consider the following procedures, where =A= is the procedure defined above:
+  #+BEGIN_SRC scheme
+     (define (f n) (A 0 n))
+     (define (g n) (A 1 n))
+     (define (h n) (A 2 n))
+     (define (k n) (* 5 n n))
+  #+END_SRC
+
+  Give concise mathematical definitions for the functions computed by the
+  procedures =f=, =g=, and =h= for positive integer values of =n=. For
+  example, =(k n)= computes \( 5n^2 \)
+
+** Solution
    #+BEGIN_SRC scheme
      (A 1 10)
      (A 0 (A 1 9))
@@ -320,35 +332,22 @@
      65536
    #+END_SRC
 
-   Consider the following procedures, where =A= is the procedure defined above:
-   #+BEGIN_SRC scheme
-     (define (f n) (A 0 n))
-     (define (g n) (A 1 n))
-     (define (h n) (A 2 n))
-     (define (k n) (* 5 n n))
-   #+END_SRC
-
-   Give concise mathematical definitions for the functions computed by the
-   procedures =f=, =g=, and =h= for positive integer values of =n=. For
-   example, =(k n)= computes \( 5n^2 \)
-
-*** Solution
    =(f n)= computes \( 2n \).
    =(g n)= computes \( 2^n \).
-   =(h n)= computes \( ^na \).
+   =(h n)= computes \( ^n2 \).
 
-** 1.11
-   A function /f/ is defined by the rule that
-   \begin{equation}
-   f(n)=
-   \begin{cases}
-   n & n<3 \\ f(n-1) + 2f(n-2) + 3f(n-3) & n\geq 3
-   \end{cases}
-   \end{equation}
-   Write a procedure that computes /f/ by means of a recursive
-   procedure. Write a procedure that computes /f/ by means of an
-   iterative procedure
-*** Solution
+* Exercise 1.11
+  A function /f/ is defined by the rule that
+  \begin{equation}
+  f(n)=
+  \begin{cases}
+  n & n<3 \\ f(n-1) + 2f(n-2) + 3f(n-3) & n\geq 3
+  \end{cases}
+  \end{equation}
+  Write a procedure that computes /f/ by means of a recursive
+  procedure. Write a procedure that computes /f/ by means of an
+  iterative procedure
+** Solution
    #+BEGIN_SRC scheme
      (define (f-recur n)
        (if (< n 3)
@@ -370,7 +369,7 @@
        (iter (0 0 1 2)))
    #+END_SRC
 
-** 1.12
+* Exercise 1.12
   The following pattern of numbers is called /Pascal's triangle/.
 
   #+BEGIN_EXAMPLE
@@ -386,7 +385,7 @@
   inside the triangle is the sum of the two numbers above it. Write a
   procedure that computes elements of Pascal's triangle by means of a
   recursive process.
-*** Solution
+** Solution
    #+BEGIN_SRC scheme
      (define (pascal row column)
        (cond ((or (< column 0)
@@ -403,20 +402,20 @@
                          column)))))
    #+END_SRC
 
-** 1.13
+* Exercise 1.13
   Prove that \( \text{Fib}(n) \) is the closest integer to \( \phi^n/\sqrt{5} \),
   where \( \phi = (1+\sqrt{5})/2 \). Hint: Let \( \psi = (1-\sqrt{5})/2
   \). Use induction and the definition of the Fibonacci numbers to prove
   that \( \text{Fib}(n) = (\phi^n - \psi^n)/\sqrt{5} \).
 
-*** Solution
+** Solution
    Let \( \psi = (1-\sqrt{5})/2 \).
-** 1.14
-   Draw the tree illustrating the process generated by the
-   =count-change= procedure of Section 1.2.2 in making change for 11
-   cents. What are the orders of the space and number of steps used by
-   this process as the amount to be changed increases?
-** 1.15
+* Exercise 1.14
+  Draw the tree illustrating the process generated by the
+  =count-change= procedure of Section 1.2.2 in making change for 11
+  cents. What are the orders of the space and number of steps used by
+  this process as the amount to be changed increases?
+** Exercise 1.15
    The sine of an angle (specified in radians) can be computed by making
    use of the approximation \( \sin x \approx x \) if /x/ is
    sufficiently small, and the trigonometric identity
