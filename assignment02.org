@@ -1,8 +1,8 @@
 #+TITLE: Assignment 2 Solutions
 * Exercise 1.9
-  Each of the following two procedures defines a method for adding two
-  positive integers in terms of the procedures =inc=, which increments its
-  argument by 1, and =dec=, which decrements its argument by 1.
+  Each of the following two procedures defines a method for adding two positive
+  integers in terms of the procedures =inc=, which increments its argument by 1,
+  and =dec=, which decrements its argument by 1.
   #+BEGIN_SRC scheme
     (define (+ a b)
       (if (= a 0)
@@ -70,8 +70,8 @@
   #+END_SRC
 
   Give concise mathematical definitions for the functions computed by the
-  procedures =f=, =g=, and =h= for positive integer values of =n=. For
-  example, =(k n)= computes \( 5n^2 \)
+  procedures =f=, =g=, and =h= for positive integer values of =n=. For example,
+  =(k n)= computes \( 5n^2 \)
 
 ** Solution
    #+BEGIN_SRC scheme
@@ -148,9 +148,9 @@
   n & n<3 \\ f(n-1) + 2f(n-2) + 3f(n-3) & n\geq 3
   \end{cases}
   \end{equation}
-  Write a procedure that computes /f/ by means of a recursive
-  procedure. Write a procedure that computes /f/ by means of an
-  iterative procedure
+  Write a procedure that computes /f/ by means of a recursive procedure. Write a
+  procedure that computes /f/ by means of an iterative procedure
+
 ** Solution
    #+BEGIN_SRC scheme
      (define (f-recur n)
@@ -185,10 +185,9 @@
        ...
   #+END_EXAMPLE
 
-  The numbers at the edge of the triangle are all 1, and each number
-  inside the triangle is the sum of the two numbers above it. Write a
-  procedure that computes elements of Pascal's triangle by means of a
-  recursive process.
+  The numbers at the edge of the triangle are all 1, and each number inside the
+  triangle is the sum of the two numbers above it. Write a procedure that
+  computes elements of Pascal's triangle by means of a recursive process.
 ** Solution
    #+BEGIN_SRC scheme
      (define (pascal row column)
@@ -207,10 +206,10 @@
    #+END_SRC
 
 * Exercise 1.13
-  Prove that \( \text{Fib}(n) \) is the closest integer to \( \phi^n/\sqrt{5} \),
-  where \( \phi = (1+\sqrt{5})/2 \). Hint: Let \( \psi = (1-\sqrt{5})/2
-  \). Use induction and the definition of the Fibonacci numbers to prove
-  that \( \text{Fib}(n) = (\phi^n - \psi^n)/\sqrt{5} \).
+  Prove that \( \text{Fib}(n) \) is the closest integer to \( \phi^n/\sqrt{5}
+  \), where \( \phi = (1+\sqrt{5})/2 \). Hint: Let \( \psi = (1-\sqrt{5})/2
+  \). Use induction and the definition of the Fibonacci numbers to prove that \(
+  \text{Fib}(n) = (\phi^n - \psi^n)/\sqrt{5} \).
 
 ** Solution
    The formula for the nth fibonacci number is
