@@ -1,3 +1,4 @@
+#+OPTIONS: toc:nil
 #+TITLE: Assignment 1 Solutions
 * Exercise 1.1
   Below is a sequence of expressions. What is the result printed by the

@@ -1,3 +1,4 @@
+#+OPTIONS: toc:nil
 #+TITLE: Assignment 2 Solutions
 * Exercise 1.9
   Each of the following two procedures defines a method for adding two positive
@@ -212,6 +213,7 @@
   \text{Fib}(n) = (\phi^n - \psi^n)/\sqrt{5} \).
 
 ** Solution
+   This solution is incomplete.
    The formula for the nth fibonacci number is
    \begin{equation*}
    \text{Fib}(n)=
