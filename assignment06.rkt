@@ -36,4 +36,27 @@
         (else (begin
                  (timed-prime-test start)
                  (search-for-primes (+ start 1) end)))))
+
 ;; 1009, 1013, 1019
+;; 10007, 10009, 10037, 10039
+;; 100003, 100019, 100043
+;; 1000003, 1000033, 1000037, 1000039
+
+(define (expmod base exp m)
+  (cond [(= exp 0) 1]
+        [(even? exp)
+         (remainder (square (expmod base (/ exp 2) m))
+                    m)]
+        [else
+         (remainder (* base (expmod base (- exp 1) m))
+                    m)]))
+
+(define (fermat-test n)
+  (define (try-it a)
+    (= (expmod a n n) a))
+  (try-it (+ 1 (random (- n 1)))))
+
+(define (fast-prime? n times)
+  (cond [(= times 0) true]
+        [(fermat-test n) (fast-prime? n (- times 1))]
+        [else false]))
