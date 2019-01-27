@@ -1,3 +1,7 @@
+#lang racket
+
+(provide (all-defined-out))
+
 (define (square x)
   (* x x))
 
@@ -20,7 +24,7 @@
 (define (start-prime-test n start-time)
   (if (prime? n)
       (report-prime (- (current-milliseconds) start-time))
-      (display " Not prime\n")))
+      (display " X\n")))
 
 (define (report-prime elapsed-time)
   (display " *** ")
@@ -60,3 +64,5 @@
   (cond [(= times 0) true]
         [(fermat-test n) (fast-prime? n (- times 1))]
         [else false]))
+
+(define noop #f)
