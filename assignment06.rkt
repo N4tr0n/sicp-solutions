@@ -1,6 +1,6 @@
 #lang racket
 
-(provide (all-defined-out))
+;(provide (all-defined-out))
 
 (define (square x)
   (* x x))
@@ -8,10 +8,15 @@
 (define (smallest-divisor n)
   (find-divisor n 2))
 
+;; 199 -> 199, 1999 -> 1999, 19999 -> 7
+
 (define (find-divisor n test-divisor)
+  (define (next x)
+    (cond [(= 2 x) 3]
+          [else (+ x 2)]))
   (cond ((> (square test-divisor) n) n)
         ((divides? test-divisor n) test-divisor)
-        (else (find-divisor n (+ test-divisor 1)))))
+        (else (find-divisor n (next test-divisor)))))
 
 (define (divides? a b)
   (= (remainder b a) 0))
@@ -64,5 +69,3 @@
   (cond [(= times 0) true]
         [(fermat-test n) (fast-prime? n (- times 1))]
         [else false]))
-
-(define noop #f)
