@@ -1,6 +1,4 @@
-#lang racket
-
-;(provide (all-defined-out))
+#lang sicp
 
 (define (square x)
   (* x x))
@@ -24,12 +22,11 @@
 (define (timed-prime-test n)
   (newline)
   (display n)
-  (start-prime-test n (current-milliseconds)))
+  (start-prime-test n (runtime)))
 
 (define (start-prime-test n start-time)
   (if (prime? n)
-      (report-prime (- (current-milliseconds) start-time))
-      (display " X\n")))
+      (report-prime (- (runtime) start-time))))
 
 (define (report-prime elapsed-time)
   (display " *** ")
@@ -40,7 +37,7 @@
   (= n (smallest-divisor n)))
 
 (define (search-for-primes start end)
-  (cond ((= start end) (display "Done\n"))
+  (cond ((> start end) (display "\nDone\n"))
         ((even? start) (search-for-primes (+ start 1) end))
         (else (begin
                  (timed-prime-test start)

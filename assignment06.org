@@ -1,3 +1,4 @@
+#+STARTUP: showeverything
 #+OPTIONS: toc:nil
 #+TITLE: Assignment 6 Solutions
 * Exercise 1.21
@@ -6,6 +7,8 @@
 ** Solution
    This is the ~smallest-divisor~ procedure:
    #+begin_src scheme
+     #lang sicp
+
      (define (smallest-divisor n) (find-divisor n 2))
 
      (define (find-divisor n test-divisor)
@@ -31,26 +34,25 @@
   /n/ is prime. If /n/ is prime, the procedure prints three asterisks followed
   by the amount of time used in performing the test.
   #+begin_src scheme
+    #lang sicp
+
     (define (prime? n)
       (= n (smallest-divisor n)))
 
-    (define runtime current-milliseconds)
+    (define runtime current-inexact-milliseconds)
 
     (define (timed-prime-test n)
+      (newline)
+      (display n)
       (start-prime-test n (runtime)))
 
     (define (start-prime-test n start-time)
-      (cond [(prime? n)
-             (report-prime n (- (runtime) start-time))]
-            [else (begin
-                    (display n)
-                    (newline))]))
+      (if (prime? n)
+          (report-prime (- (runtime) start-time))))
 
     (define (report-prime n elapsed-time)
-      (display n)
       (display " *** ")
-      (display elapsed-time)
-      (newline))
+      (display elapsed-time))
   #+end_src
   Using this procedure, write a procedure ~search-for-primes~ that checks the
   primality of consecutive odd integers in a specified range. Use your procedure
@@ -72,6 +74,23 @@
                      (timed-prime-test start)
                      (search-for-primes (+ start 1) end)))))
    #+end_src
+   | prime number | time (in microseconds?) |
+   |--------------+-------------------------|
+   | 1,009        |                       1 |
+   | 1,013        |                       1 |
+   | 1,019        |                       1 |
+   | 10,007       |                       2 |
+   | 10,009       |                       1 |
+   | 10,037       |                       1 |
+   | 100,003      |                       5 |
+   | 100,019      |                       5 |
+   | 100,043      |                       5 |
+   | 1,000,003    |                      15 |
+   | 1,000,033    |                      15 |
+   | 1,000,037    |                      15 |
+   | 10,000,019   |                      48 |
+   | 10,000,079   |                      48 |
+   | 10,000,103   |                      47 |
 * Exercise 1.23
   The ~smallest-divisor~ procedure shown at the start of this section does lots
   of needless testing: After it checks to see if the number is divisible by 2
