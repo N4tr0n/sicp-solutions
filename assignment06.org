@@ -39,8 +39,6 @@
     (define (prime? n)
       (= n (smallest-divisor n)))
 
-    (define runtime current-inexact-milliseconds)
-
     (define (timed-prime-test n)
       (newline)
       (display n)
@@ -71,26 +69,26 @@
        (cond ((> start end) (display "Done\n"))
              ((even? start) (search-for-primes (+ start 1) end))
              (else (begin
-                     (timed-prime-test start)
+                     (timed-prime-test startp)
                      (search-for-primes (+ start 1) end)))))
    #+end_src
    | prime number | time (in microseconds?) |
    |--------------+-------------------------|
-   | 1,009        |                       1 |
-   | 1,013        |                       1 |
-   | 1,019        |                       1 |
-   | 10,007       |                       2 |
-   | 10,009       |                       1 |
-   | 10,037       |                       1 |
-   | 100,003      |                       5 |
-   | 100,019      |                       5 |
-   | 100,043      |                       5 |
-   | 1,000,003    |                      15 |
-   | 1,000,033    |                      15 |
-   | 1,000,037    |                      15 |
-   | 10,000,019   |                      48 |
-   | 10,000,079   |                      48 |
-   | 10,000,103   |                      47 |
+   |         1009 |                       1 |
+   |         1013 |                       1 |
+   |         1019 |                       1 |
+   |        10007 |                       2 |
+   |        10009 |                       1 |
+   |        10037 |                       1 |
+   |       100003 |                       5 |
+   |       100019 |                       5 |
+   |       100043 |                       5 |
+   |      1000003 |                      15 |
+   |      1000033 |                      15 |
+   |      1000037 |                      15 |
+   |     10000019 |                      48 |
+   |     10000079 |                      48 |
+   |     10000103 |                      47 |
 * Exercise 1.23
   The ~smallest-divisor~ procedure shown at the start of this section does lots
   of needless testing: After it checks to see if the number is divisible by 2
@@ -106,6 +104,38 @@
   about twice as fast. Is this expectation confirmed? If not, what is the
   observed ratio of the speeds of the two algorithms, and how do you explain the
   fact that it is different from 2?
+** Solution
+   #+begin_src scheme
+     (define (smallest-divisor n)
+       (find-divisor n 2))
+
+     (define (find-divisor n test-divisor)
+       (define (next x)
+         (cond [(= 2 x) 3]
+               [else (+ x 2)]))
+       (cond ((> (square test-divisor) n) n)
+             ((divides? test-divisor n) test-divisor)
+             (else (find-divisor n (next test-divisor)))))
+   #+end_src
+   This is the output from running this version of the program on the primes in
+   thne previous exercise:
+   |    prime | time |
+   |----------+------|
+   |     1009 |    5 |
+   |     1013 |    1 |
+   |     1019 |    1 |
+   |    10007 |    4 |
+   |    10009 |    4 |
+   |    10037 |    4 |
+   |   100003 |    6 |
+   |   100019 |   23 |
+   |   100043 |    6 |
+   |  1000003 |   16 |
+   |  1000033 |   16 |
+   |  1000037 |   16 |
+   | 10000019 |   61 |
+   | 10000079 |   50 |
+   | 10000103 |   50 |
 * Exercise 1.24
   Modify the ~timed-prime-test~ procedure of Exercise 1.22 to use ~fast-prime?~
   (the Fermat method), and test each of the 12 primes you found in that
@@ -113,6 +143,24 @@
   expect the time to test primes near 1,000,000 to compare with the time needed
   to test primes near 1000? Do your data bear this out? Can you explain any
   discrepancy you find?
+** Solution
+   |    prime | time |
+   |----------+------|
+   |     1009 |  276 |
+   |     1013 |    4 |
+   |     1019 |    5 |
+   |    10007 |    5 |
+   |    10009 |    5 |
+   |    10037 |    5 |
+   |   100003 |   16 |
+   |   100019 |    6 |
+   |   100043 |    5 |
+   |  1000003 |    6 |
+   |  1000033 |    6 |
+   |  1000037 |    6 |
+   | 10000019 |    7 |
+   | 10000079 |    8 |
+   | 10000103 |    7 |
 * Exercise 1.25
   Alyssa P. Hacker complains that we went to a lot of extra work in writing
   ~expmod~. After all, she says, since we already know how to compute
@@ -144,11 +192,35 @@
   ``I don't see what difference that could make,'' says Louis. ``I do.'' says
   Eva. ``By writing the procedure like that, you have transformed the \(
   \theta(\log n) \) process into a \( \theta(n) \) process.'' Explain.
+** Solution
+   The reason that the process is now \( \theta(n) \) is that the expression
+   ~(expmod base (/ exp 2) m)~ must now be evaluated twice for every call while
+   using ~square~ allows for the expression to be evaluted only once.
 * Exercise 1.27
   Demonstrate that the Carmichael numbers listed in Footnote 1.47 really do fool
   the Fermat test. That is, write a procedure that takes an integer /n/ and
   tests whether \( a^n \) is congruent to /a/ modulo /n/ for every \( a < n\),
   and try your procedure on the given Carmichael numbers.
+** Solution
+   #+begin_src scheme
+     (define (square x) (* x x))
+     (define (expmod base exp m)
+       (cond [(= exp 0) 1]
+             [(even? exp)
+              (remainder (square (expmod base (/ exp 2) m))
+                         m)]
+             [else
+              (remainder (* base (expmod base (- exp 1) m))
+                         m)]))
+     (define (test n)
+       (define (try-it a)
+         (= (expmod a n n) a))
+       (define (loop a)
+         (cond [(= a 0) true]
+               [(try-it a) (loop (- a 1))]
+               [else false]))
+       (loop n))
+   #+end_src
 * Exercise 1.28
   One variant of the Fermat test that cannot be fooled is called the
   /Miller-Rabin/ test (Miller 1976; Rabin 1980). This starts from an alternate
@@ -170,3 +242,15 @@
   ~fermat-test~. Check your procedure by testing various known primes and
   non-primes. Hint: One convenient way to make ~expmod~ signal is to have it
   return 0.
+** Solution
+   #+begin_src scheme
+     (define (square x) (* x x))
+     (define (expmod base exp m)
+       (cond [(= exp 0) 1]
+             [(even? exp)
+              (remainder (square (expmod base (/ exp 2) m))
+                         m)]
+             [else
+              (remainder (* base (expmod base (- exp 1) m))
+                         m)]))
+   #+end_src

@@ -1,52 +1,64 @@
 #lang sicp
 
-(define (square x)
-  (* x x))
+(define (square x) (* x x))
 
-(define (smallest-divisor n)
-  (find-divisor n 2))
+(define (smallest-divisor-1 n) (find-divisor-1 n 2))
 
-;; 199 -> 199, 1999 -> 1999, 19999 -> 7
+(define (smallest-divisor-2 n) (find-divisor-2 n 2))
 
-(define (find-divisor n test-divisor)
+(define (find-divisor-1 n test-divisor)
+  (cond ((> (square test-divisor) n) n)
+        ((divides? test-divisor n) test-divisor)
+        (else (find-divisor-1 n (+ test-divisor 1)))))
+
+(define (divides? a b) (= (remainder b a) 0))
+
+(define (find-divisor-2 n test-divisor)
   (define (next x)
     (cond [(= 2 x) 3]
           [else (+ x 2)]))
   (cond ((> (square test-divisor) n) n)
         ((divides? test-divisor n) test-divisor)
-        (else (find-divisor n (next test-divisor)))))
+        (else (find-divisor-2 n (next test-divisor)))))
 
-(define (divides? a b)
-  (= (remainder b a) 0))
-
-(define (timed-prime-test n)
+(define (timed-prime-test-1 n)
   (newline)
   (display n)
-  (start-prime-test n (runtime)))
+  (start-prime-test-1 n (runtime)))
 
-(define (start-prime-test n start-time)
-  (if (prime? n)
+(define (start-prime-test-1 n start-time)
+  (if (prime?-1 n)
       (report-prime (- (runtime) start-time))))
 
+(define (timed-prime-test-2 n)
+  (newline)
+  (display "|")
+  (display n)
+  (start-prime-test-2 n (runtime)))
+
+(define (start-prime-test-2 n start-time)
+  (if (prime?-2 n)
+      (report-prime (- (runtime) start-time))))
+
+
 (define (report-prime elapsed-time)
-  (display " *** ")
+  (display "|")
   (display elapsed-time)
+  (display "|")
   (newline))
 
-(define (prime? n)
-  (= n (smallest-divisor n)))
+(define (prime?-1 n)
+  (= n (smallest-divisor-1 n)))
+
+(define (prime?-2 n)
+  (= n (smallest-divisor-2 n)))
 
 (define (search-for-primes start end)
   (cond ((> start end) (display "\nDone\n"))
         ((even? start) (search-for-primes (+ start 1) end))
         (else (begin
-                 (timed-prime-test start)
-                 (search-for-primes (+ start 1) end)))))
-
-;; 1009, 1013, 1019
-;; 10007, 10009, 10037, 10039
-;; 100003, 100019, 100043
-;; 1000003, 1000033, 1000037, 1000039
+                (timed-prime-test-1 start)
+                (search-for-primes (+ start 1) end)))))
 
 (define (expmod base exp m)
   (cond [(= exp 0) 1]
@@ -66,3 +78,40 @@
   (cond [(= times 0) true]
         [(fermat-test n) (fast-prime? n (- times 1))]
         [else false]))
+
+(define (timed-prime-test-3 n)
+  (newline)
+  (display n)
+  (start-prime-test-3 n (runtime)))
+
+(define (start-prime-test-3 n start-time)
+  (if (fast-prime? n 4)
+      (report-prime (- (runtime) start-time))))
+
+
+;(timed-prime-test-3 1009)
+;(timed-prime-test-3 1013)
+;(timed-prime-test-3 1019)
+;(timed-prime-test-3 10007)
+;(timed-prime-test-3 10009)
+;; (timed-prime-test-3 10037)
+;; (timed-prime-test-3 100003)
+;; (timed-prime-test-3 100019)
+;; (timed-prime-test-3 100043)
+;; (timed-prime-test-3 1000003)
+;; (timed-prime-test-3 1000033)
+;; (timed-prime-test-3 1000037)
+(display "hello")
+(timed-prime-test-3 3)
+(timed-prime-test-3 10000019)
+(timed-prime-test-3 10000079)
+(timed-prime-test-3 10000103)
+
+(define (test n)
+  (define (try-it a)
+    (= (expmod a n n) a))
+  (define (loop a)
+    (cond [(= a 0) true]
+          [(try-it a) (loop (- a 1))]
+          [else false]))
+  (loop n))
