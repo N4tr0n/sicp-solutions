@@ -1,6 +1,7 @@
 #lang sicp
 
 ;; Library
+(define (square x) (* x x))
 (define tolerance 0.00001)
 (define (fixed-point f first-guess)
   (define (close-enough? v1 v2)
@@ -110,7 +111,7 @@
 ;; that generates an iterative process. If it generates an iterative
 ;; process, write one that generates a recursive process.
 (define (cont-frac-iter n d k)
-  )
+  0)
 
 (define cont-frac cont-frac-iter)
 ;; Exercise 1.38: In 1737, the Swiss mathematician Leonhard Euler published
@@ -124,7 +125,7 @@
            (lambda (i)
              (cond [(= i 1) 1]
                    [(= 1 2) 2]
-                   i))
+                   [else i]))
            10)
 
 ;; Exercise 1.39: A continued fraction representation of the tangent
@@ -139,5 +140,6 @@
                (if (= i 1)
                    x
                    (square x)))
-             (lambda (i) (- (* 2 i) 1))
+             (lambda (i)
+               (- (* 2 i) 1))
              k))
