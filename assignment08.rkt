@@ -13,17 +13,20 @@
           next
           (try next))))
   (try first-guess))
-
+(define (average x y)
+  (/ (+ x y) 2))
 
 ;; Exercise 1.35: Show that the golden ratio φ (Section 1.2.2) is a
 ;; fixed point of the transformation x → 1 + 1/x, and use this fact to
 ;; compute φ by means of the fixed-point procedure.
+;; Solution: Let f(x) = 1 + 1/x and remember that φ = (1+sqrt(5))/2 and
+;; plug φ into f
 (fixed-point (lambda (y) (+ 1 (/ 1 y)))
              1.0)
 
 
-;; Exercise 1.36: Modify fixed-point so that it prints the sequence of
-;; approximations it generates, using the newline and display primitives
+;; Exercise 1.36: Modify `fixed-point` so that it prints the sequence of
+;; approximations it generates, using the `newline` and `display` primitives
 ;; shown in Exercise 1.22. Then find a solution to x^x = 1000 by finding a
 ;; fixed point of x → log(1000)/log(x). (Use Scheme’s primitive log
 ;; procedure, which computes natural logarithms.) Compare the number of
@@ -45,6 +48,9 @@
 
 (fixed-point-print (lambda (x) (/ (log 1000) (log x)))
                    2.0)
+(fixed-point-print (lambda (x) (average x (/ (log 1000) (log x))))
+                   2.0)
+;; Without average damping
 ;; 2.0
 ;; 9.965784284662087
 ;; 3.004472209841214
@@ -81,24 +87,37 @@
 ;; 4.555540912917957
 ;; 4.555532270803653
 
+;; with average damping
+;; 2.0
+;; 5.9828921423310435
+;; 4.922168721308343
+;; 4.628224318195455
+;; 4.568346513136242
+;; 4.5577305909237005
+;; 4.555909809045131
+;; 4.555599411610624
+;; 4.5555465521473675
+;; 4.555537551999825
+
 ;; Exercise 1.37:
-;; a. An infinite continued fraction is an expression of the form As an
-;; example, one can show that the infinite continued fraction expansion
-;; with the N_i and the D_i all equal to 1 produces 1/φ, where φ is the
-;; golden ratio (described in Section 1.2.2). One way to approximate an
-;; infinite continued fraction is to truncate the expansion after a given
-;; number of terms. Such a truncation -- a so-called k-term finite
-;; continued fraction -- has the form shown in the book. Suppose that n and
-;; d are procedures of one argument (the term index i) that return the N_i
-;; and D_i of the terms of the continued fraction. Define a procedure
-;; `cont-frac` such that evaluating `(cont-frac n d k)` computes the value
-;; of the k-term finite continued fraction. Check your procedure by
-;; approximating 1/φ using
+;; a. An infinite continued fraction is an expression of the form shown
+;; in the book. As an example, one can show that the infinite continued
+;; fraction expansion with the N_i and the D_i all equal to 1 produces
+;; 1/φ, where φ is the golden ratio (described in Section 1.2.2). One
+;; way to approximate an infinite continued fraction is to truncate the
+;; expansion after a given number of terms. Such a truncation -- a
+;; so-called k-term finite continued fraction -- has the form shown in
+;; the book. Suppose that n and d are procedures of one argument (the
+;; term index i) that return the N_i and D_i of the terms of the
+;; continued fraction. Define a procedure `cont-frac` such that
+;; evaluating `(cont-frac n d k)` computes the value of the k-term
+;; finite continued fraction. Check your procedure by approximating 1/φ
+;; using
 ;; (cont-frac (lambda (i) 1.0)
 ;;            (lambda (i) 1.0)
 ;;            k)
-;; for successive values of k. How large must you make k in order to get an
-;; approximation that is accurate to 4 decimal places?
+;; for successive values of k. How large must you make k in order to get
+;; an approximation that is accurate to 4 decimal places?
 (define (cont-frac-recur n d k)
   (define (recur i)
     (if (= i k)
