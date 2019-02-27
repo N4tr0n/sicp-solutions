@@ -19,8 +19,8 @@
 ;; Exercise 1.35: Show that the golden ratio φ (Section 1.2.2) is a
 ;; fixed point of the transformation x → 1 + 1/x, and use this fact to
 ;; compute φ by means of the fixed-point procedure.
-;; Solution: Let f(x) = 1 + 1/x and remember that φ = (1+sqrt(5))/2 and
-;; plug φ into f
+;; Solution: Let f(x) = 1 + 1/x and remember that φ = (1+sqrt(5))/2.
+;; Then plug φ into f and do some algebra.
 (fixed-point (lambda (y) (+ 1 (/ 1 y)))
              1.0)
 
@@ -118,21 +118,33 @@
 ;;            k)
 ;; for successive values of k. How large must you make k in order to get
 ;; an approximation that is accurate to 4 decimal places?
+;; Solution: The function is below. k should be 12 to get an
+;; approximation that is accurate to 4 decimal places
 (define (cont-frac-recur n d k)
   (define (recur i)
-    (if (= i k)
-        1
-        (/ (n k)
-           (+ (d k)
-              (recur (+ i 1))))))
+    (let ([n-i (n i)]
+          [d-i (d i)])
+      (if (= i k)
+          (/ n-i d-i)
+          (/ n-i (+ d-i (recur (+ i 1)))))))
   (recur 1))
+
 ;; b. If your cont-frac procedure generates a recursive process, write one
 ;; that generates an iterative process. If it generates an iterative
 ;; process, write one that generates a recursive process.
 (define (cont-frac-iter n d k)
-  0)
+  (define (iter i result)
+    (if (= i 0)
+        result
+        (iter (- i 1)
+              (/ (n i)
+                 (+ (d i) result)))))
+  (iter k 0))
 
 (define cont-frac cont-frac-iter)
+(cont-frac (lambda (i) 1.0)
+           (lambda (i) 1.0)
+           12)
 ;; Exercise 1.38: In 1737, the Swiss mathematician Leonhard Euler published
 ;; a memoir De Fractionibus Continuis, which included a continued fraction
 ;; expansion for e − 2, where e is the base of the natural logarithms. In
@@ -142,10 +154,20 @@
 ;; expansion.
 (cont-frac (lambda (i) 1.0)
            (lambda (i)
+             (cond [(< i 3) i]
+                   [else 5])
              (cond [(= i 1) 1]
-                   [(= 1 2) 2]
-                   [else i]))
-           10)
+                   [(= i 2) 2]
+                   [(= i 3) 1]
+                   [(= i 4) 1]
+                   [(= i 5) 4]
+                   [(= i 6) 1]
+                   [(= i 7) 1]
+                   [(= i 8) 6]
+                   [(= i 9) 1]
+                   [(= i 10) 1]
+                   [(= i 11) 8]))
+           1)
 
 ;; Exercise 1.39: A continued fraction representation of the tangent
 ;; function was published in 1770 by the German mathematician J.H. Lambert:
@@ -155,10 +177,6 @@
 ;; Lambert’s formula. k specifies the number of terms to compute, as in
 ;; Exercise 1.37.
 (define (tan-cf x k)
-  (cont-frac (lambda (i)
-               (if (= i 1)
-                   x
-                   (square x)))
-             (lambda (i)
-               (- (* 2 i) 1))
+  (cont-frac (lambda (i) (if (= i 1) x (- (square x))))
+             (lambda (i) (- (* 2 i) 1))
              k))
