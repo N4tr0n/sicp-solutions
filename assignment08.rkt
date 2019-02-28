@@ -24,7 +24,6 @@
 (fixed-point (lambda (y) (+ 1 (/ 1 y)))
              1.0)
 
-
 ;; Exercise 1.36: Modify `fixed-point` so that it prints the sequence of
 ;; approximations it generates, using the `newline` and `display` primitives
 ;; shown in Exercise 1.22. Then find a solution to x^x = 1000 by finding a
@@ -145,6 +144,7 @@
 (cont-frac (lambda (i) 1.0)
            (lambda (i) 1.0)
            12)
+
 ;; Exercise 1.38: In 1737, the Swiss mathematician Leonhard Euler published
 ;; a memoir De Fractionibus Continuis, which included a continued fraction
 ;; expansion for e − 2, where e is the base of the natural logarithms. In
