@@ -153,12 +153,13 @@
 ;; procedure from Exercise 1.37 to approximate e, based on Euler’s
 ;; expansion.
 (define (euler-number)
-  (cont-frac (lambda (i) 1.0)
-             (lambda (i)
-               (if (= (remainder i 3) 2)
-                   (* (quotient (+ i 1) 3) 2)
-                   1))
-             100))
+  (+ 2
+     (cont-frac (lambda (i) 1.0)
+                (lambda (i)
+                  (if (= (remainder i 3) 2)
+                      (* (quotient (+ i 1) 3) 2)
+                      1))
+                100)))
 
 ;; Exercise 1.39: A continued fraction representation of the tangent
 ;; function was published in 1770 by the German mathematician J.H. Lambert:
