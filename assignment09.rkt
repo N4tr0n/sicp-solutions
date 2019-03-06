@@ -2,15 +2,23 @@
 ;; newtons-method procedure in expressions of the form
 ;;     (newtons-method (cubic a b c) 1)
 ;; to approximate zeros of the cubic x^3 + ax^2 + bx + c.
-(define (cubic a b c) 0)
+(define (cubic a b c)
+  (let ([cube (lambda (x) (* x x x))]
+        [square (lambda (x) (* x x))])
+    (lambda (x) (+ (cube x)
+                   (* a (square x))
+                   (* b x)
+                   c))))
 
-;; Exercise 1.41: Define a procedure double that takes
-;; a procedure of one argument as argument and returns a procedure that
-;; applies the original procedure twice. For example, if inc is a procedure
-;; that adds 1 to its argument, then (double inc) should be a procedure that
-;; adds 2. What value is returned by
+;; Exercise 1.41: Define a procedure double that takes a procedure of one
+;; argument as argument and returns a procedure that applies the original
+;; procedure twice. For example, if inc is a procedure that adds 1 to its
+;; argument, then (double inc) should be a procedure that adds 2. What value is
+;; returned by
 ;;     (((double (double double)) inc) 5)
 (define (double f) (lambda (x) (f (f x))))
+;; The value returned by the expression (((double (double double)) inc) 5)
+;; is 21
 
 ;; Exercise 1.42: Let f and g be two one-argument functions. The composition f
 ;; after g is defined to be the function x → f(g(x)). Define a procedure
@@ -33,6 +41,10 @@
 ;;    ((repeated square 2) 5)
 ;;    625
 ;; Hint: You may find it convenient to use compose from Exercise 1.42.
+(define (repeated f n)
+  (if (= n 1)
+      f
+      (compose f (repeated f (- n 1)))))
 
 
 ;; Exercise 1.44: The idea of smoothing a function is an important concept in
@@ -44,16 +56,24 @@
 ;; is, smooth the smoothed function, and so on) to obtain the n-fold smoothed
 ;; function. Show  how to generate the n-fold smoothed function of any given
 ;; function using smooth and repeated from Ex. 1.43.
+(define (smooth f)
+  (let ([dx 0.00001]
+        [average (lambda (x y z) (/ (+ x y z) 3))])
+    (lambda (x) (average (f (- x dx))
+                         (f x)
+                         (f (+ x dx))))))
 
+(define (n-fold-smooth f n)
+  (repeated (smooth f) n))
 
 ;; Exercise 1.45: We saw in Section 1.3.3 that attempting to compute square
 ;; roots by naively finding a fixed point of y → x/y does not converge, and
 ;; that this can be fixed by average damping. The same method works for finding
 ;; cube roots as fixed points of the average-damped y → x/y^2. Unfortunately,
-;; the process does not work for fourth roots—a sin- gle average damp is not
+;; the process does not work for fourth roots—a single average damp is not
 ;; enough to make a fixed-point search for y → x/y^3 converge. On the other
 ;; hand, if we average damp twice (i.e., use the average damp of the average
-;; damp of y → x/y^3) the fixed- point search does converge. Do some experiments
+;; damp of y → x/y^3) the fixed-point search does converge. Do some experiments
 ;; to determine how many average damps are required to compute nth roots as a
 ;; fixed-point search based upon repeated average damping of y → x/y^(n−1). Use
 ;; this to implement a simple procedure for computing nth roots using
