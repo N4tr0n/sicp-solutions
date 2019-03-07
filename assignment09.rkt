@@ -1,3 +1,4 @@
+#lang sicp
 ;; Exercise 1.40: Define a procedure cubic that can be used together with the
 ;; newtons-method procedure in expressions of the form
 ;;     (newtons-method (cubic a b c) 1)
@@ -80,7 +81,27 @@
 ;; fixed-point, average-damp, and the repeated procedure of Exercise
 ;; 1.43. Assume that any arithmetic operations you need are available as
 ;; primitives.
+(define (average-damp f)
+  (let ([average (lambda (x y) (/ (+ x y) 2))])
+    (lambda (x)
+      (average x (f x)))))
 
+(define tolerance 0.00001)
+(define (fixed-point f first-guess)
+  (define (close-enough? v1 v2)
+    (< (abs (- v1 v2))
+       tolerance))
+  (define (try guess)
+    (let ((next (f guess)))
+      (if (close-enough? guess next)
+          next
+          (try next))))
+  (try first-guess))
+
+(define (nth-root x n)
+  (fixed-point (repeated (average-damp (lambda (y) (/ x (expt y (- n 1)))))
+                         n)
+               1.0))
 
 ;; Exercise 1.46: Several of the numerical methods described in this chapter
 ;; are instances of an extremely general computational strategy known as
@@ -94,3 +115,16 @@
 ;; guess as argument and keeps improving the guess until it is good
 ;; enough. Rewrite the sqrt procedure of Section 1.1.7 and the fixed-point
 ;; procedure of Section 1.3.3 in terms of iterative-improve.
+(define (iterative-improve good-enough? improve)
+  (define (f guess)
+    (if (good-enough? guess)
+        guess
+        (f (improve guess))))
+  f)
+
+(define (square x) (* x x))
+(define (average x y) (/ (+ x y) 2))
+(define (nah/sqrt x)
+  ((iterative-improve (lambda (guess) (< (abs (- (square guess) x))
+                                          0.0001))
+                      (lambda (guess) (average guess (/ x guess)))) 1.0))
