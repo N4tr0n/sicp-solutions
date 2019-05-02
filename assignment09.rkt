@@ -47,7 +47,6 @@
       f
       (compose f (repeated f (- n 1)))))
 
-
 ;; Exercise 1.44: The idea of smoothing a function is an important concept in
 ;; signal processing. If f is a function and dx is some small number, then the
 ;; smoothed version of f is the function whose value at a point x is the average
@@ -128,3 +127,5 @@
   ((iterative-improve (lambda (guess) (< (abs (- (square guess) x))
                                           0.0001))
                       (lambda (guess) (average guess (/ x guess)))) 1.0))
+(define (nah/fixed-point f first-guess)
+  ((iterative-improve (lambda (guess)))))
