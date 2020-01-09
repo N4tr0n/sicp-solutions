@@ -8,9 +8,8 @@
 ;; 2.1.1
 ;; Exercise 2.1: Define a better version of make-rat that handles both positive
 ;; and negative arguments. Make-rat should normalize the sign so that if the
-;; rational number is positive, both the numerator and denominator are
-;; positive, and if the rational number is negative, only the numerater is
-;; negative.
+;; rational number is positive, both the numerator and denominator are positive,
+;; and if the rational number is negative, only the numerator is negative.
 (define (make-rat n d)
   (let ((g (gcd n d)))
     (cond ((or (and (< n 0) (< d 0)) (and (> n 0) (< d 0)))
@@ -90,8 +89,9 @@
 ;; and y.
 ;;     (define (cons x y) (lambda (m) (m x y)))
 ;;     (define (car z) (z (lambda (p q) p)))
-;; What is the corresponding definition of cdr? (Hint: To verify that this works,
-;; make use of the substitution model of Section 1.1.5.)
+;; What is the corresponding definition of cdr? (Hint: To verify that this
+;; works, make use of the substitution model of Section 1.1.5.)
+
 (define (cons1 x y) (lambda (m) (m x y)))
 (define (car1 z) (z (lambda (p q) p)))
 (define (cdr1 z) (z (lambda (p q) q)))
@@ -131,14 +131,13 @@
 ;;    (define (add-1 n)
 ;;      (lambda (f) (lambda (x) (f ((n f) x)))))
 ;; This representation is known as Church numerals, after its inventor, Alonzo
-;; Church, the logician who invented the λ-calculus.
-;; Define one and two directly (not in terms of zero and add-1). (Hint: Use
-;; substitution to evaluate (add-1 zero)). Give a direct definition of the
-;; addition procedure + (not in terms of repeated application of add-1).
+;; Church, the logician who invented the λ-calculus. Define one and two directly
+;; (not in terms of zero and add-1). (Hint: Use substitution to evaluate (add-1
+;; zero)). Give a direct definition of the addition procedure + (not in terms of
+;; repeated application of add-1).
 
 ;; (add-1 zero)
 ;; (add-1 (lambda (f) (lambda (x) x)))
-
 
 (define one (lambda (f) (lambda (x) (f x))))
 (define two (lambda (f) (lambda (x) (f (f x)))))
