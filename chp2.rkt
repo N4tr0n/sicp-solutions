@@ -1,5 +1,22 @@
 #lang sicp
 
+(define (gcd a b)
+  (if (= b 0)
+      a
+      (gcd b (remainder a b))))
+
+;; 2.1.1
+;; Exercise 2.1: Define a better version of make-rat that handles both positive
+;; and negative arguments. Make-rat should normalize the sign so that if the
+;; rational number is positive, both the numerator and denominator are
+;; positive, and if the rational number is negative, only the numerater is
+;; negative.
+(define (make-rat n d)
+  (let ((g (gcd n d)))
+    (cond ((or (and (< n 0) (< d 0)) (and (> n 0) (< d 0)))
+               (cons (/ (- n) g) (/ (- d) g)))
+           (else (cons (/ n g) (/ d g))))))
+
 ;; 2.1.2
 (define (make-point x y)
   "x and y should be numbers"
@@ -126,4 +143,4 @@
 (define one (lambda (f) (lambda (x) (f x))))
 (define two (lambda (f) (lambda (x) (f (f x)))))
 
-(define (add x y) )
+(define (add x y) (+ x y))
