@@ -1,4 +1,3 @@
-;; #+OPTIONS: toc:nil
 ;; 1.1.6
 ;; Exercise 1.1: Below is a sequence of expressions. What is the result printed
 ;; by the interpreter in response to each expression? Assume that the sequence
