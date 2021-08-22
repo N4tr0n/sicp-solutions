@@ -132,21 +132,33 @@
   (lambda (f) (lambda (x) (f ((n f) x)))))
 ;; This representation is known as Church numerals, after its inventor, Alonzo
 ;; Church, the logician who invented the λ-calculus. Define one and two directly
-;; (not in terms of zero and add-1). (Hint: Use substitution to evaluate (add-1
-;; zero)). Give a direct definition of the addition procedure + (not in terms of
-;; repeated application of add-1).
-
-(add-1 zero)
-(add-1 (lambda (g) (lambda (x) x)))
-(lambda (f) (lambda (x) (f (((lambda (g) (lambda (x) x)) f) x))))
-(lambda (f) (lambda (x) (f (lambda (x) x) x))))
-(lambda (f) (lambda (x) (f x)))
-
+;; (not in terms of zero and add-1). (Hint: Use substitution to evaluate
+;; (add-1 zero)). Give a direct definition of the addition procedure + (not in
+;; terms of repeated application of add-1).
 
 (define one (lambda (f) (lambda (x) (f x))))
 (define two (lambda (f) (lambda (x) (f (f x)))))
+(define (add-church-numerals m n)
+  (lambda (f) (lambda (x) ((m f) ((n f) x)))))
 
-(define (add m n)
-  (if (= y 0)
-      x
-      (add (+ x 1) (- y 1))))
+(define (church-numeral-to-integer n)
+  (define (inc x) (+ 1 x))
+  ((n inc) 0))
+
+(church-numeral-to-integer (add-church-numerals one two))
+
+;; Exercise 2.7: Alyssa's program is incomplete because she has not
+;; specified the implementation of the interval abstraction. Here is a
+;; definition of the interval constructor:
+
+(define (make-interval a b) (cons a b))
+
+;; Define selectors upper-bound and lower-bound to complete the
+;; implementation.
+
+(define (upper-bound interval) (car interval))
+(define (lower-bound interval) (cdr interval))
+
+;; Exercise 2.8: Using reasoning analogous to Alyssa's, describe how
+;; the difference of two intervals may be computed. Define a
+;; corresponding subtraction procedure, called sub-interval.
