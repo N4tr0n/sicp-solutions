@@ -1,3 +1,5 @@
+#lang racket
+
 (define (nah/string->int s)
   (define digit-map
     (hash #\0 0
